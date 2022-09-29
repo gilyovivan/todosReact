@@ -1,23 +1,35 @@
-import logo from './logo.svg';
+import Form from './components/Form';
+import Todos from './components/Todos';
 import './App.css';
+import { useState, useEffect } from "react"
 
 function App() {
+  
+
+  
+  
+  
+  const localStorageTodos = JSON.parse(
+    localStorage.getItem('todoslocal')
+    );
+    const [todos, setTodos] = useState(localStorage.getItem('todoslocal') !== null ? localStorageTodos : [])
+
+    useEffect(() => {
+      updateLocalStorage()
+      
+    }, [todos]);
+
+  const  updateLocalStorage = () => {
+    localStorage.setItem('todoslocal', JSON.stringify(todos));
+  }
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Form setTodos={setTodos}/>
+      <Todos todos={todos} setTodos={setTodos}/>
+
     </div>
   );
 }
